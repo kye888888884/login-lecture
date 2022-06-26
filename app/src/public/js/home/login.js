@@ -10,7 +10,7 @@ function login() {
     const req = {
         id: id.value,
         pw: pw.value,
-    };
+    }; 
 
     fetch("/login", {
         method: "POST",
@@ -18,6 +18,15 @@ function login() {
             "Content-Type": "application/json"
         },
         body: JSON.stringify(req),
-    })  .then((res) => console.log(res.json()))
-        .then(console.log);
+    })  .then((res) => res.json())
+        .then((res) => {
+            if (res.success) {
+                location.href = "/";
+            } else {
+                alert(res.msg);
+            }
+        })
+        .catch((err) => {
+            console.error("로그인 중 에러가 발생했습니다.");
+        });
 }
