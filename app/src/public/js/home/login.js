@@ -21,6 +21,7 @@ function login() {
     })  .then((res) => res.json())
         .then((res) => {
             if (res.success) {
+                alert("당신의 닉네임은 " + res.name + "입니다.");
                 location.href = "/";
             } else {
                 alert(res.msg);

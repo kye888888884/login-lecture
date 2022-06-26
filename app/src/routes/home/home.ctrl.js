@@ -1,9 +1,6 @@
 "use strict";
 
-const users = {
-    id: ["dengol4477", "안뇽", "hi"  ],
-    pw: ["1234",       "4321", "369!"]
-}
+const UserStorage = require("../../models/UserStorage");
 
 const output = {
     home: (req, res) => {
@@ -19,19 +16,21 @@ const process = {
         const id = req.body.id;
         const pw = req.body.pw;
 
+        const users = UserStorage.getUsers("id", "pw", "name");
+        
+        const response = {};
         if (users.id.includes(id)) {
             const idx = users.id.indexOf(id);
             if (users.pw[idx] === pw) {
-                return res.json({
-                    success: true,
-                });
+                response.success = true;
+                response.name = users.name[idx];
+                return res.json(response);
             }
         }
 
-        return res.json({
-            success: false,
-            msg: "로그인에 실패했습니다.",
-        })
+        response.success = false;
+        response.msg = "로그인에 실패했습니다.";
+        return res.json(response);
     },
 }
 
